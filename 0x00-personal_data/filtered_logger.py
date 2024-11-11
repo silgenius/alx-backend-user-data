@@ -14,9 +14,10 @@ Functions:
 
 from re import escape as esc
 import re
+from typing List
 
 
-def filter_datum(flds, rdt, msg, spr):
+def filter_datum(flds: List, rdt: str, msg: str, spr: str) -> str:
     """a function called that returns the log message obfuscated"""
     for fd in flds:
         msg = re.sub(esc(fd) + r"=" + r"[^" + spr + r"]+", f'{fd}={rdt}', msg)
