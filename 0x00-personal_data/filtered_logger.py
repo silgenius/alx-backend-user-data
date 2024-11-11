@@ -17,7 +17,7 @@ import re
 from typing import List
 
 
-def filter_datum(flds: List, rdt: str, msg: str, spr: str) -> str:
+def filter_datum(flds: List[str], rdt: str, msg: str, spr: str) -> str:
     """a function called that returns the log message obfuscated"""
     for fd in flds:
         msg = re.sub(esc(fd) + r"=" + r"[^" + spr + r"]+", f'{fd}={rdt}', msg)
