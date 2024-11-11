@@ -14,7 +14,7 @@ Functions:
 
 from re import escape as esc
 import re
-from typing List
+from typing import List
 
 
 def filter_datum(flds: List, rdt: str, msg: str, spr: str) -> str:
