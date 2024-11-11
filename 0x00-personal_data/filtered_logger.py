@@ -12,11 +12,12 @@ Functions:
     Obfusates specified fields in a log message.
 """
 
-from re import sub, escape as esc
+from re import escape as esc
+import re
 
 
 def filter_datum(flds, rdt, msg, spr):
     """a function called that returns the log message obfuscated"""
-    for fld in flds:
-        msg = sub(esc(fld) + r"=" + r"[^" + spr + r"]+", f'{fld}={rdt}', msg)
+    for fd in flds:
+        msg = re.sub(esc(fd) + r"=" + r"[^" + spr + r"]+", f'{fd}={rdt}', msg)
     return msg
