@@ -16,8 +16,12 @@ import re
 from typing import List
 
 
-def filter_datum(fields: List[str], redaction: str,
-                message: str, separator: str) -> str:
+def filter_datum(
+        fields: List[str],
+        redaction: str,
+        message: str,
+        separator: str
+        ) -> str:
     """a function called that returns the log message obfuscated"""
     pattern = r'(' + '|'.join(fields) + r')=(.*?)(' + separator + '|$)'
     return re.sub(pattern, r'\1=' + redaction + r'\3', message)
