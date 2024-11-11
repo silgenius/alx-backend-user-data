@@ -39,7 +39,7 @@ def get_logger() -> logging.Logger:
     # Setting Up logger
     logger = logging.getLogger('user_data')
     logger.setLevel(logging.INFO)
-    logger.propagate = False
+    # logger.propagate = False
 
     # Create handler
     handler = logging.streamHandler()
