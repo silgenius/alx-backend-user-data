@@ -40,6 +40,7 @@ def forbidden(error) -> str:
 
 @app.before_request
 def before_request():
+    """ Filters requests"""
     if not auth:
         return
 
