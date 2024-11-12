@@ -1,42 +1,36 @@
-# Simple API
+# 0x01 - Basic Authentication
 
-Simple HTTP API for playing with `User` model.
+## Project Overview
 
+This project demonstrates the implementation of basic authentication for a web application using Python and Flask. The main objective is to securely authenticate users using HTTP Basic Authentication and protect specific resources on the server.
 
-## Files
+## Technologies Used
 
-### `models/`
+- Python 3
+- Flask
+- HTTP Basic Authentication
 
-- `base.py`: base of all models of the API - handle serialization to file
-- `user.py`: user model
+## Project Description
 
-### `api/v1`
+In this project, we will:
 
-- `app.py`: entry point of the API
-- `views/index.py`: basic endpoints of the API: `/status` and `/stats`
-- `views/users.py`: all users endpoints
+- Create a simple Flask application.
+- Implement basic authentication using Python's `base64` module.
+- Secure an endpoint with basic authentication and return appropriate responses based on authentication success or failure.
 
+### Requirements
 
-## Setup
+- Python 3.x
+- Flask (`pip install Flask`)
 
-```
-$ pip3 install -r requirements.txt
-```
+## Features
 
+- **Basic Authentication**: The app uses a username and password sent via HTTP headers to authenticate users.
+- **Protected Endpoint**: An endpoint (`/`) that requires authentication to access. If the user is not authenticated, they will receive a `401 Unauthorized` status.
 
-## Run
+## Installation
 
-```
-$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/0x01-Basic_authentication.git
 
-
-## Routes
-
-- `GET /api/v1/status`: returns the status of the API
-- `GET /api/v1/stats`: returns some stats of the API
-- `GET /api/v1/users`: returns the list of users
-- `GET /api/v1/users/:id`: returns an user based on the ID
-- `DELETE /api/v1/users/:id`: deletes an user based on the ID
-- `POST /api/v1/users`: creates a new user (JSON parameters: `email`, `password`, `last_name` (optional) and `first_name` (optional))
-- `PUT /api/v1/users/:id`: updates an user based on the ID (JSON parameters: `last_name` and `first_name`)
