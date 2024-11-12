@@ -1,44 +1,42 @@
-# 0x01. Basic Authentication
+# Simple API
 
-This repository contains a project that demonstrates the implementation of basic authentication in a web application. It introduces the concept of securing access to an API or a web service using simple authentication mechanisms.
+Simple HTTP API for playing with `User` model.
 
-## Project Overview
 
-In this project, you'll learn how to:
+## Files
 
-- Implement basic HTTP authentication.
-- Understand and handle `Authorization` headers in HTTP requests.
-- Use `Base64` encoding to transmit authentication credentials securely (though it's not truly secure on its own).
-- Set up an API endpoint that requires basic authentication to access.
+### `models/`
 
-## Files in the repository
+- `base.py`: base of all models of the API - handle serialization to file
+- `user.py`: user model
 
-### 1. **`basic_auth.py`**
+### `api/v1`
 
-This file contains the implementation of basic authentication. The `BasicAuth` class implements the `Authorization` header parsing and user verification logic.
+- `app.py`: entry point of the API
+- `views/index.py`: basic endpoints of the API: `/status` and `/stats`
+- `views/users.py`: all users endpoints
 
-### 2. **`app.py`**
 
-The main application file where a basic API is set up using Flask. This includes routes that require basic authentication.
+## Setup
 
-### 3. **`README.md`**
+```
+$ pip3 install -r requirements.txt
+```
 
-This file, which explains the basic authentication implementation and provides instructions on how to use it.
 
-### 4. **`requirements.txt`**
+## Run
 
-Contains the list of Python dependencies needed for this project. You can install these dependencies using `pip install -r requirements.txt`.
+```
+$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
+```
 
-## Features
 
-- **Basic Authentication:** The implementation expects a `username:password` pair encoded in Base64, sent in the `Authorization` header of an HTTP request.
-- **Secure Access:** Requests without the proper credentials or with invalid credentials will be rejected with a `401 Unauthorized` status.
-- **Flask App Setup:** A simple Flask API is used to showcase the authentication mechanism.
+## Routes
 
-## Installation
-
-To install the required dependencies, run the following command:
-
-```bash
-pip install -r requirements.txt
-
+- `GET /api/v1/status`: returns the status of the API
+- `GET /api/v1/stats`: returns some stats of the API
+- `GET /api/v1/users`: returns the list of users
+- `GET /api/v1/users/:id`: returns an user based on the ID
+- `DELETE /api/v1/users/:id`: deletes an user based on the ID
+- `POST /api/v1/users`: creates a new user (JSON parameters: `email`, `password`, `last_name` (optional) and `first_name` (optional))
+- `PUT /api/v1/users/:id`: updates an user based on the ID (JSON parameters: `last_name` and `first_name`)

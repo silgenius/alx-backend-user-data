@@ -1,5 +1,0 @@
-Flask
-Flask-Cors
-Jinja2
-requests
-pycodestyle==2.6.0
