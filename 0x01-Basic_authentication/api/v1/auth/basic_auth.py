@@ -78,8 +78,11 @@ class BasicAuth(Auth):
         if user_email and user_pwd:
             if isinstance(user_email, str) and \
                     isinstance(user_pwd, str):
-                users = User.search()
-                if users and len(users) > 0:
+                try:
+                    users = User.search()
+                except Exception:
+                    pass
+                else:
                     for user in users:
                         user_pwd = hashlib.sha256(
                                 user_pwd.encode()
