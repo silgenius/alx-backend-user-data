@@ -72,6 +72,9 @@ class BasicAuth(Auth):
             user_email: str,
             user_pwd: str
             ) -> TypeVar('User'):
+        """
+         returns the User instance based on his email and password.
+        """
         if user_email and user_pwd:
             if isinstance(user_email, str) and \
                     isinstance(user_pwd, str):
