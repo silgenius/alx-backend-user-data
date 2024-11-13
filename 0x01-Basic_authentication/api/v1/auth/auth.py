@@ -20,14 +20,13 @@ class Auth:
         """
         if path is None:
             return True
-        
-        # Return True if excluded_paths is None or empty
+
         if not excluded_paths:
             return True
-        
+
         # Normalize the path by removing any trailing slashes
         normalized_path = path.rstrip('/')
-        
+
         # Iterate over excluded paths
         for excluded in excluded_paths:
             # Normalize the excluded path by removing trailing slashes
@@ -36,14 +35,14 @@ class Auth:
             # Check for wildcard '*' at the end of excluded path
             if normalized_excluded.endswith('*'):
                 # Remove '*' and check if the path starts with the prefix
-                prefix = normalized_excluded[:-1]  # Remove the '*' from the end
+                prefix = normalized_excluded[:-1]
                 if normalized_path.startswith(prefix):
                     return False
             else:
                 # If no wildcard, compare exactly
                 if normalized_path == normalized_excluded:
                     return False
-        
+
         # If path is not in the excluded paths, return True
         return True
     def authorization_header(self, request=None) -> str:
