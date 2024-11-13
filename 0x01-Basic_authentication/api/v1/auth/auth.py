@@ -31,7 +31,7 @@ class Auth:
         for excluded in excluded_paths:
             # Normalize the excluded path by removing trailing slashes
             normalized_excluded = excluded.rstrip('/')
-            
+
             # Check for wildcard '*' at the end of excluded path
             if normalized_excluded.endswith('*'):
                 # Remove '*' and check if the path starts with the prefix
@@ -45,6 +45,7 @@ class Auth:
 
         # If path is not in the excluded paths, return True
         return True
+
     def authorization_header(self, request=None) -> str:
         """
         returns None
