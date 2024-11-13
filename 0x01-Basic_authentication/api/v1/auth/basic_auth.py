@@ -60,7 +60,10 @@ class BasicAuth(Auth):
         if decoded_base64_authorization_header:
             if isinstance(decoded_base64_authorization_header, str):
                 try:
-                    name, pwd = decoded_base64_authorization_header.split(':', 1)
+                    name, pwd = decoded_base64_authorization_header.split(
+                            ':',
+                            1
+                            )
                 except Exception:
                     pass
                 else:
