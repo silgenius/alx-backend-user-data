@@ -12,7 +12,7 @@ class BasicAuth(Auth):
     """
     Implements tthe basic authentication system
     """
-    
+
     def extract_base64_authorization_header(
             self,
             authorization_header: str
