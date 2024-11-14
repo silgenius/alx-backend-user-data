@@ -9,6 +9,7 @@ from flask import request
 from typing import TypeVar, List
 from .auth import Auth
 import uuid
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -37,3 +38,28 @@ class SessionAuth(Auth):
             if isinstance(session_id, str):
                 return self.user_id_by_session_id.get(session_id)
         return None
+
+    def current_user(self, request=None):
+        """
+        returns a User instance based on a cookie value
+        """
+        session_id = self.session_cookie(request)
+        if session_id:
+            user_id = self.user_id_for_session_id(session_id)
+            user = User.get(user_id)
+            if user:
+                return user
+        return None
+
+    def destroy_session(self, request=None):
+        """
+        deletes the user session / logout
+        """
+        if request:
+            session_id = self.session_cookie(request)
+            if session_id:
+                user_id = self.user_id_for_session_id(session_id)
+                if user_id:
+                    self.user_id_by_session_id.pop(session_id)
+                    return True
+        return False
