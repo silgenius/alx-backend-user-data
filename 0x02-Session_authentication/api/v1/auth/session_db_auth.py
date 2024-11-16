@@ -33,8 +33,8 @@ class SessionDBAuth(SessionExpAuth):
         and add to file
         """
         session_id = super().create_session(user_id)
-        self.save_to_file()
-        print(self.user_id_by_session_id)
+        if session_id:
+            self.save_to_file()
         return session_id
 
     def destroy_session(self, request=None):
