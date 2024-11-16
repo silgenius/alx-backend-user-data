@@ -53,6 +53,11 @@ class SessionExpAuth(SessionAuth):
                 created_at = user_session.get('created_at')
                 if created_at:
                     duration = timedelta(seconds=self.session_duration)
+                    if not type(created_at) == datetime:
+                        created_at = datetime.strptime(
+                                created_at,
+                                "%Y-%m-%dT%H:%M:%S"
+                                )
                     time = created_at + duration
                     if time > datetime.now():
                         return user_session.get('user_id')
