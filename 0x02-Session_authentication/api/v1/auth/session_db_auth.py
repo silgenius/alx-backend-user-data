@@ -53,7 +53,11 @@ class SessionDBAuth(SessionExpAuth):
          database based on session_id
         """
         if session_id:
-            user = UserSession.search({'session_id': session_id})
-            if len(user) > 0:
-                return super().user_id_for_session_id(user[0].session_id)
+            try:
+                user = UserSession.search({'session_id': session_id})
+            except Exception:
+                pass
+            else:
+                if len(user) > 0:
+                    return super().user_id_for_session_id(user[0].session_id)
         return None
