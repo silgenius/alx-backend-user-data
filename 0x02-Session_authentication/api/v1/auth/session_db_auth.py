@@ -8,9 +8,7 @@
 from .session_exp_auth import SessionExpAuth
 import json
 from datetime import datetime
-
-
-TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S"
+from models.user_session import UserSession
 
 
 class SessionDBAuth(SessionExpAuth):
@@ -25,7 +23,6 @@ class SessionDBAuth(SessionExpAuth):
         Initialize session db auth
         """
         super().__init__()
-        self.load_from_file()
 
     def create_session(self, user_id=None):
         """
@@ -34,46 +31,29 @@ class SessionDBAuth(SessionExpAuth):
         """
         session_id = super().create_session(user_id)
         if session_id:
-            self.save_to_file()
+            user_session = UserSession(user_id, session_id)
+            user_session.save()
+            return session_id
         return session_id
 
     def destroy_session(self, request=None):
         """
         deletes the user session / logout
         """
-        value = super().destroy_session(request)
-        if value:
-            self.save_to_file()
-        return value
+        if request:
+            session_id = self.session_cookie(request)
+            if session_id:
+                user = UserSession.search({'session_id': session_id})
+                if len(user) > 0:
+                    user[0].remove()
 
-    def save_to_file(self):
+    def user_id_for_session_id(self, session_id=None):
         """
-        save user_id_by_session_id to file
+         returns the User ID by requesting UserSession in the
+         database based on session_id
         """
-        dup = self.user_id_by_session_id.copy()
-        for v in dup.values():
-            created_at = v.get('created_at')
-            if created_at and type(created_at) is datetime:
-                v['created_at'] = created_at.strftime(TIMESTAMP_FORMAT)
-        with open(self.filename, 'w') as f:
-            json.dump(dup, f)
-
-    def load_from_file(self):
-        """
-        Load from file
-        """
-        try:
-            with open(self.filename, 'r') as f:
-                content = json.load(f)
-        except FileNotFoundError:
-            pass
-        else:
-            if content:
-                for v in content.values():
-                    created_at = v.get('created_at')
-                    if created_at and isinstance(created_at, str):
-                        v['created_at'] = datetime.strptime(
-                                created_at,
-                                TIMESTAMP_FORMAT
-                                )
-            self.user_id_by_session_id.update(content)
+        if session_id:
+            user = UserSession.search({'session_id': session_id})
+            if len(user) > 0:
+                return super().user_id_for_session_id(user[0].session_id)
+        return None

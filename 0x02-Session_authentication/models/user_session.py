@@ -15,6 +15,7 @@ class UserSession(Base):
         """
         Initialize user session
         """
+        super().__init__(*args, **kwargs)
         if args:
             self.user_id = args[0]
             self.session_id = args[1]
