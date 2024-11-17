@@ -9,7 +9,7 @@ from .session_exp_auth import SessionExpAuth
 import json
 from datetime import datetime
 from models.user_session import UserSession
-
+from datetime import datetime, timedelta
 
 class SessionDBAuth(SessionExpAuth):
     """
