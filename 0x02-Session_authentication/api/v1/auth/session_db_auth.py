@@ -55,7 +55,5 @@ class SessionDBAuth(SessionExpAuth):
         if session_id:
             user = UserSession.search({'session_id': session_id})
             if len(user) > 0:
-                user_id = super().user_id_for_session_id(user[0].session_id)
-                if user_id:
-                    return user[0].id
+                return super().user_id_for_session_id(user[0].session_id)
         return None
