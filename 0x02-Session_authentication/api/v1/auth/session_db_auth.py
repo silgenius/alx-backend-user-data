@@ -11,6 +11,7 @@ from datetime import datetime
 from models.user_session import UserSession
 from datetime import datetime, timedelta
 
+
 class SessionDBAuth(SessionExpAuth):
     """
     Implement session DB
@@ -45,6 +46,7 @@ class SessionDBAuth(SessionExpAuth):
             if session_id:
                 user = UserSession.search({'session_id': session_id})
                 if len(user) > 0:
+                    print(user[0].user_id)
                     user[0].remove()
 
     def user_id_for_session_id(self, session_id=None):
