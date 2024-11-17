@@ -52,14 +52,22 @@ class SessionDBAuth(SessionExpAuth):
          returns the User ID by requesting UserSession in the
          database based on session_id
         """
-        if session_id:
-            try:
-                users = UserSession.search()
-            except Exception:
-                pass
-            else:
-                if len(users) > 0:
-                    for user in users:
-                        if user.session_id == session_id:
+        if not session_id:
+            return None
+
+        try:
+            users = UserSession.search()
+        except Exception:
+            return None
+
+        if len(users) > 0:
+            for user in users:
+                if user.session_id == session_id:
+                    if self.session_duration <= 0:
+                        return user.user_id
+                    if user.created_at:
+                        duration = timedelta(seconds=self.session_duration)
+                        time = created_at + duration
+                        if time > datetime.now():
                             return user.user_id
         return None
