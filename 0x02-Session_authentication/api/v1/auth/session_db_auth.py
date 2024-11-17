@@ -54,10 +54,12 @@ class SessionDBAuth(SessionExpAuth):
         """
         if session_id:
             try:
-                user = UserSession.search({'session_id': session_id})
+                users = UserSession.search()
             except Exception:
                 pass
             else:
-                if len(user) > 0:
-                    return super().user_id_for_session_id(user[0].session_id)
+                if len(users) > 0:
+                    for user in users:
+                        if user.session_id == session_id:
+                            return user.user_id
         return None
