@@ -55,9 +55,11 @@ class DB:
          keyword arguments, and returns None
         """
         user = self.find_user_by(id=user_id)
-        for attr, v in kwargs.items():
-            if attr not in user.__dict__:
+        for attr in kwargs:
+            if not hasattr(user, attr):
                 raise ValueError()
+
+        for attr, v in kwargs.items():
             setattr(user, attr, v)
 
         self._session.commit()
