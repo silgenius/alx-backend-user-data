@@ -2,14 +2,12 @@
 
 """DB module
 """
-
-from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.orm.exc import NoResultFound
-from user import Base, User
+
+from user import Base
 
 
 class DB:
@@ -41,49 +39,3 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
-
-    def find_user_by(self, **kwargs) -> User:
-        """
-        takes in keyword and returns the first row found in the users table
-        """
-        valid_query = [
-                'id',
-                'email',
-                'hashed_password',
-                'session_id',
-                'reset_token']
-
-        for k in kwargs:
-            if k not in valid_query:
-                raise InvalidRequestError()
-
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if not user:
-            raise NoResultFound()
-        return user
-
-    def update_user(self, user_id: str, **kwargs: dict) -> None:
-        """
-         method that takes as argument a required user_id integer and arbitrary
-         keyword arguments, and returns None
-        """
-
-        self._session
-        user = self.find_user_by(id=user_id)
-        if user:
-            if kwargs:
-                for attr, v in kwargs.items():
-                    if hasattr(user, attr):
-                        setattr(user, attr, v)
-                    else:
-                        raise ValueError
-
-                # Add user to db
-                self.__session.add(user)
-                try:
-                    self.__session.commit()
-                except Exception as e:
-                    self.__session.rollback()
-                    print(e)
-
-                return None
