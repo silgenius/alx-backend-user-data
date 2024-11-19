@@ -49,7 +49,7 @@ class DB:
             raise NoResultFound()
         return user
 
-    def update_user(self, user_id: str, **kwargs: dict) -> None:
+    def update_user(self, user_id: str, **kwargs) -> None:
         """
          method that takes as argument a required user_id integer and arbitrary
          keyword arguments, and returns None
