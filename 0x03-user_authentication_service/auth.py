@@ -7,9 +7,10 @@ Module -  for authentication
 import bcrypt
 from db import DB, NoResultFound
 import uuid
+from typing import TypeVar
 
 
-def _hash_password(password):
+def _hash_password(password: str) -> bytes:
     """
     takes in a password string arguments and returns bytes.
     returned bytes is a salted hash of the input password,
@@ -19,7 +20,7 @@ def _hash_password(password):
     return bcrypt.hashpw(password.encode('utf-8'), salt)
 
 
-def _generate_uuid():
+def _generate_uuid() -> str:
     """
     return a string representation of a new UUID
     """
@@ -36,7 +37,7 @@ class Auth:
         """
         self._db = DB()
 
-    def register_user(self, email, password):
+    def register_user(self, email: str, password: str) -> TypeVar('User'):
         """
         take mandatory email and password string
         arguments and return a User object.
@@ -54,7 +55,7 @@ class Auth:
         else:
             raise ValueError("User {} already exists".format(email))
 
-    def valid_login(self, email, password):
+    def valid_login(self, email: str, password: str) -> bool:
         """
         locates the user by email. If it exists, check the password
         If it matches return True. In any other case, return False
@@ -68,7 +69,7 @@ class Auth:
                 return True
             return False
 
-    def create_session(self, email):
+    def create_session(self, email: str) -> str:
         """
         takes an email string argument and returns
         the session ID as a string.
@@ -81,7 +82,7 @@ class Auth:
             self._db.update_user(user.id, session_id=_generate_uuid())
             return user.session_id
 
-    def get_user_from_session_id(self, session_id=None):
+    def get_user_from_session_id(self, session_id: str = None) -> str:
         """
         takes in session_id string argument and returns
         the corresponding User or None
@@ -95,7 +96,7 @@ class Auth:
                 return user
         return None
 
-    def destroy_session(self, user_id):
+    def destroy_session(self, user_id: str) -> str:
         """
         The method takes a single user_id integer argument and returns None
         The method updates the corresponding user’s session ID to None
