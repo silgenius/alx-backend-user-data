@@ -16,15 +16,31 @@ except ValueError as err:
     print("could not create a new user: {}".format(err))
 
 try:
-    user = auth.get_reset_password_token(email)
+    reset_token = auth.get_reset_password_token(email)
 except ValueError as err:
     print("could not create a new user: {}".format(err))
 else:
-    print(user)
+    print(reset_token)
 
 try:
-    user = auth.get_reset_password_token("Does not exist")
+    reset_token_2 = auth.get_reset_password_token("Does not exist")
 except ValueError as err:
     print("could not create a new user: {}".format(err))
 else:
-    print(user)
+    print(reset_token_2)
+
+try:
+    auth.update_password(reset_token, "newpwd")
+except ValueError as err:
+    print("Couldnt update password")
+else:
+    print(user.hashed_password)
+    print(user.reset_token)
+
+try:
+    auth.update_password("wrong token", "new_pwd")
+except ValueError as err:
+    print("Couldnt update password")
+else:
+    print(user.hashed_password)
+    print(user.reset_token)
