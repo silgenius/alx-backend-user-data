@@ -31,7 +31,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email, hashed_password):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """
         returns a User object. The method should save the user to the database
         """
@@ -47,7 +47,7 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs: dict) -> User:
         """
         takes in keyword and returns the first row found in the users table
         """
@@ -58,7 +58,7 @@ class DB:
             raise NoResultFound
         return user
 
-    def update_user(self, user_id, **kwargs):
+    def update_user(self, user_id: str, **kwargs: dict) -> None:
         """
          method that takes as argument a required user_id integer and arbitrary
          keyword arguments, and returns None

@@ -7,7 +7,8 @@ Module -  for authentication
 import bcrypt
 from db import DB, NoResultFound
 import uuid
-from typing import TypeVar
+from typing import TypeVar, Union
+from user import User
 
 
 def _hash_password(password: str) -> bytes:
@@ -37,7 +38,7 @@ class Auth:
         """
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> TypeVar('User'):
+    def register_user(self, email: str, password: str) -> User:
         """
         take mandatory email and password string
         arguments and return a User object.
@@ -69,7 +70,7 @@ class Auth:
                 return True
             return False
 
-    def create_session(self, email: str) -> str:
+    def create_session(self, email: str) -> Union[str, None]:
         """
         takes an email string argument and returns
         the session ID as a string.
@@ -82,7 +83,10 @@ class Auth:
             self._db.update_user(user.id, session_id=_generate_uuid())
             return user.session_id
 
-    def get_user_from_session_id(self, session_id: str = None) -> str:
+    def get_user_from_session_id(
+            self,
+            session_id: str = None
+            ) -> Union[User, None]:
         """
         takes in session_id string argument and returns
         the corresponding User or None
