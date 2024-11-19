@@ -31,13 +31,11 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: bytes) -> User:
+    def add_user(self, email: str, hashed_password: str) -> User:
         """
         returns a User object. The method should save the user to the database
         """
         user = User(email=email, hashed_password=hashed_password)
-
-        # Add user to db
         self._session.add(user)
         self._session.commit()
         return user
