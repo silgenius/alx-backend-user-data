@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
+from typing import Union
 
 
 class DB:
@@ -49,7 +50,7 @@ class DB:
             raise NoResultFound()
         return user
 
-    def update_user(self, user_id, **kwargs) -> None:
+    def update_user(self, user_id: str, **kwargs) -> Union[None, ValueError]:
         """
          method that takes as argument a required
          user_id integer and arbitrary keyword
