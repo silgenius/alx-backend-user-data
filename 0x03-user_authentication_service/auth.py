@@ -113,7 +113,7 @@ class Auth:
             self._db.update_user(user.id, session_id=None)
             return user.session_id
 
-    def get_reset_password_token(email: str) -> str:
+    def get_reset_password_token(self, email: str) -> str:
         """
          take an email string argument and returns a string.
          Finds the user corresponding to the email an
@@ -126,5 +126,5 @@ class Auth:
             raise ValueError
         else:
             token = _generate_uuid()
-            user.update_user(reset_token=token)
+            self._db.update_user(user.id, reset_token=token)
             return user.reset_token

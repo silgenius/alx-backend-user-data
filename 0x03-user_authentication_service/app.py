@@ -83,11 +83,28 @@ def logout():
 
 @app.route('/profile')
 def profile():
+    """
+    function to respond to the GET /profile route.
+    """
     session_id = request.cookies.get('session_id')
     user = AUTH.get_user_from_session_id(session_id)
     if user:
         return jsonify({"email": user.email}), 200
-    abort(403)
+    raise abort(403)
+
+
+@app.route('/reset_password', methods=['POST'])
+def get_reset_password_token():
+    """
+     function to respond to the POST /reset_password route.
+    """
+    email = request.form.get('email')
+    try:
+        reset_token = AUTH.get_reset_password_token(email)
+    except ValueError:
+        raise abort(403)
+    else:
+        return jsonify({"email": email, "reset_token": reset_token}), 200
 
 
 if __name__ == "__main__":
