@@ -2,6 +2,8 @@
 
 """DB module
 """
+
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -44,10 +46,20 @@ class DB:
         """
         takes in keyword and returns the first row found in the users table
         """
+        valid_query = [
+                'id',
+                'email',
+                'hashed_password',
+                'session_id',
+                'reset_token']
+
+        for k in kwargs:
+            if k not in valid_query:
+                raise InvalidRequestError()
 
         user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
-            raise NoResultFound
+            raise NoResultFound()
         return user
 
     def update_user(self, user_id: str, **kwargs: dict) -> None:
