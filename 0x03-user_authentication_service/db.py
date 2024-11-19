@@ -31,7 +31,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> User:
+    def add_user(self, email: str, hashed_password: bytes) -> User:
         """
         returns a User object. The method should save the user to the database
         """
@@ -39,12 +39,7 @@ class DB:
 
         # Add user to db
         self._session.add(user)
-        try:
-            self._session.commit()
-        except Exception as e:
-            self._session.rollback()
-            print(e)
-
+        self._session.commit()
         return user
 
     def find_user_by(self, **kwargs: dict) -> User:
