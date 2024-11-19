@@ -39,14 +39,12 @@ class DB:
         user.email = email
         user.hashed_password = hashed_password
 
-        self._session
-
         # Add user to db
-        self.__session.add(user)
+        self._session.add(user)
         try:
-            self.__session.commit()
+            self._session.commit()
         except Exception as e:
-            self.__session.rollback()
+            self._session.rollback()
             print(e)
 
         return user
