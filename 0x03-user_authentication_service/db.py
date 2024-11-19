@@ -35,9 +35,7 @@ class DB:
         """
         returns a User object. The method should save the user to the database
         """
-        user = User()
-        user.email = email
-        user.hashed_password = hashed_password
+        user = User(email=email, hashed_password=hashed_password)
 
         # Add user to db
         self._session.add(user)
