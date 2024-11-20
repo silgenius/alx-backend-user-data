@@ -16,8 +16,6 @@ def register_user(email: str, password: str) -> None:
     resp = requests.post('http://0.0.0.0:5000/users', data=form_data)
 
     assert resp.status_code == 200
-    #print(resp.json())
-    #assert resp.json() == {"email": email, "message": "user created"}
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
@@ -38,7 +36,6 @@ def log_in(email: str, password: str) -> str:
     resp = requests.post('http://0.0.0.0:5000/sessions', data=form_data)
 
     assert resp.status_code != 401
-    #print(resp.cookies.get('session_id'))
     return resp.cookies.get('session_id')
 
 
@@ -68,7 +65,6 @@ def log_out(session_id: str) -> None:
     cookie = {'session_id': session_id}
     resp = requests.delete('http://0.0.0.0:5000/sessions', cookies=cookie)
 
-    #print(resp.status_code)
     assert resp.status_code == 200
     assert resp.json() == {"message": "Bienvenue"}
 
@@ -81,7 +77,6 @@ def reset_password_token(email: str) -> str:
     resp = requests.post('http://0.0.0.0:5000/reset_password', data=form_data)
 
     assert resp.status_code == 200
-    #print(resp.json().get('reset_token'))
     return resp.json().get('reset_token')
 
 
