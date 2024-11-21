@@ -77,20 +77,34 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 def main() -> None:
+    """
+     function will obtain a database connection using get_db and
+     retrieve all rows in the users table and display each row under
+     a filtered format like this
+    """
+    logger = get_logger()
     conn = get_db()
-    cur = conn.cursor
-    
-    cur.execute('SELECT * FORM users')
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM users;')
     users = cur.fetchall()
-    # logger = get_logger()
-    # handler = logging.StreamHandler()
-    
-    # formatter = RedactingFormatter()
-    for user in users:
-        print(user)
-        
-    
-    
+
+    cols = [
+            'name',
+            'email',
+            'phone',
+            'ssn',
+            'password',
+            'ip',
+            'last_login',
+            'user_agent'
+            ]
+    for rows in users:
+        msg = ''
+        for col, row in zip(cols, rows):
+            msg += col + '=' + str(row) + ';' + ' '
+        logger.info(msg[:-1])
+
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class"""
 
@@ -106,3 +120,7 @@ class RedactingFormatter(logging.Formatter):
         """ method to filter values in incoming log records"""
         msg = super(RedactingFormatter, self).format(record)
         return filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
+
+
+if __name__ == '__main__':
+    main()
