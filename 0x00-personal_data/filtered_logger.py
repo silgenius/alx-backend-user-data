@@ -76,6 +76,21 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return conn
 
 
+def main() -> None:
+    conn = get_db()
+    cur = conn.cursor
+    
+    cur.execute('SELECT * FORM users')
+    users = cur.fetchall()
+    # logger = get_logger()
+    # handler = logging.StreamHandler()
+    
+    # formatter = RedactingFormatter()
+    for user in users:
+        print(user)
+        
+    
+    
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class"""
 
