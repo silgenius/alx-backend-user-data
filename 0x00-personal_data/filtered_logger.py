@@ -60,19 +60,20 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     Returns:
         _type_: mysql.connector.connection.MySQLConnection
     """
-    db_username = os.getenv('PERSONAL_DATA_DB_USERNAME')
-    db_passwd = os.getenv('PERSONAL_DATA_DB_PASSWORD')
-    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
-    db_host = os.getenv('PERSONAL_DATA_DB_HOST')
+    db_username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    db_passwd = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME', '')
+    db_host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
 
-    db = mysql.connector.connect(
+    conn = mysql.connector.connect(
         host=db_host,
         user=db_username,
         password=db_passwd,
-        database=db_name
+        database=db_name,
+        port=3306
     )
 
-    return db
+    return conn
 
 
 class RedactingFormatter(logging.Formatter):
