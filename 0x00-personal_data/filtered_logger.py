@@ -54,7 +54,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
+def get_db() -> MySQLdb.Connect:
     """returns a connector to the database
 
     Returns:
