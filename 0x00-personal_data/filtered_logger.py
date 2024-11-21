@@ -15,6 +15,8 @@ Functions:
 import re
 from typing import List
 import logging
+import os
+import MySQLdb
 
 
 PII_FIELDS = ('email', 'name', 'password', 'ssn', 'phone')
@@ -50,6 +52,22 @@ def get_logger() -> logging.Logger:
     logger.addHandler(handler)
 
     return logger
+
+
+def get_db():
+    db_username = os.getenv('PERSONAL_DATA_DB_USERNAME')
+    db_passwd = os.getenv('PERSONAL_DATA_DB_PASSWORD')
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+    db_host = os.getenv('PERSONAL_DATA_DB_HOST')
+
+    db = MySQLdb.connect(
+        host=db_host,
+        user=db_username,
+        passwd=db_passwd,
+        db=db_name
+    )
+
+    return db
 
 
 class RedactingFormatter(logging.Formatter):
